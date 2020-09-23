@@ -16,7 +16,7 @@ namespace ConsoleApp2
              * 
              */
 
-            Console.WriteLine("CSCI 6221 - Homework #2 - Sam Odle");
+            Console.WriteLine("Print Size, Type, and Range");
             Console.WriteLine();
 
             var basicTypeList = getTypeList();
