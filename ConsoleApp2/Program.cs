@@ -7,20 +7,32 @@ namespace ConsoleApp2
 {
     class Program
     {
+        private static Random rand = new Random(); //used for non-deterministic execution below
+
         static void Main(string[] args)
         {
             Console.WriteLine("CSCI 6221 - Homework #3 - Sam Odle");
             Console.WriteLine();
 
-            try
+            int rangeLow = 3; int rangeHigh = 6; int numerator = 12;
+            for (int i = 0; i < 8; i++) 
             {
-                printFibonacciLGC(3, 6, 12);
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine($"Program Terminated w/ Following Error Message: {e.Message}");
-            }
+                try
+                {
+                    Console.WriteLine($"Input: {rangeLow}, {rangeHigh}, {numerator}");
+                    printFibonacciLGC(rangeLow, rangeHigh, numerator);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Program Terminated: {e.Message}");
+                    Console.WriteLine();
+                }
 
+                //test for several random values
+                rangeLow += rand.Next(1, 3);
+                rangeHigh += rand.Next(2, 4);
+                numerator += rand.Next(3, 6);
+            }
         }
 
         private static void printFibonacciLGC(int rangeLow, int rangeHigh, int numerator)
@@ -29,20 +41,51 @@ namespace ConsoleApp2
             var trueValues = new List<int>();
 
             //one boolean evaluation per integer in the range
-            foreach(int value in targetRange)
+            foreach (int value in targetRange)
             {
-                if(numerator % value == 0) { trueValues.Add(value); }
+                if (numerator % value == 0) { trueValues.Add(value); }
             }
 
-            if(trueValues.Count == 0) { throw new Exception($"Runtime Error - No Valid Values for {numerator}"); }
+            //if no true values, throw runtime error
+            if (trueValues.Count == 0) { throw new Exception($"Runtime Error - No Valid Values for {numerator}"); }
 
-            //else there was at least one Boolean expression that evaluated true
+            int selectedOutcome;
+
+            //if only one true value, use it
+            if (trueValues.Count == 1) { selectedOutcome = trueValues[0]; }
+            //otherwise, non-deterministically pick one
             else
             {
                 //non-deterministically select one of the true cases
-
-                //print out the Fibonacci sequence for the selected case
+                selectedOutcome = trueValues[rand.Next(0, trueValues.Count)];
             }
+            Console.WriteLine($"Selected Outcome: {selectedOutcome}");
+
+            //print out the Fibonacci sequence for the selected case (fib #s < selected number)
+            Console.Write($"Fibonacci Sequence: ");
+            int i = 0;
+            int fib_i = Fibonacci(i);
+            while (fib_i < selectedOutcome)
+            {
+                Console.Write(fib_i + " ");
+                i++;
+                fib_i = Fibonacci(i);
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
+        private static int Fibonacci(int n)
+        {
+            int a = 0;
+            int b = 1;
+            for (int i = 0; i < n; i++)
+            {
+                int temp = a;
+                a = b;
+                b = temp + b;
+            }
+            return a;
         }
 
     }
