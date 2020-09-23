@@ -7,7 +7,7 @@ namespace ConsoleApp2
 {
     class PrintNameSizeRange
     {
-        static void Main(string[] args)
+        static void PrintTypeInfo()
         {
             /*
              * 
