@@ -10,9 +10,6 @@ namespace ConsoleApp2
 
         static void Main_LoopGuardedCommand(string[] args)
         {
-            Console.WriteLine("CSCI 6221 - Homework #3 - Sam Odle");
-            Console.WriteLine();
-
             int rangeLow = 3; int rangeHigh = 6; int numerator = 12;
             for (int i = 0; i < 8; i++)
             {
