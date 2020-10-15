@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AdvancedSoftwareParadigms
 {
-    public abstract class IShape
+    public abstract class Shape
     {
         public abstract double GetArea();
         protected const int INVALID_AREA = -1;
@@ -13,14 +13,14 @@ namespace AdvancedSoftwareParadigms
         {
             if (ParameterValues.Count != ParameterNames().Count)
             {
-                Console.WriteLine($"Incorrect Number Of Input Parameters.  Expected {ParameterValues.Count} but received {ParameterNames().Count}.");
+                Console.WriteLine($"Incorrect Number Of Input Parameters.  Expected {ParameterNames().Count} but received {ParameterValues.Count}.");
                 return false;
             }
             else //correct # parameters
             {
                 for (int i = 0; i < ParameterValues.Count; i++)
                 {
-                    if (i <= 0)
+                    if (ParameterValues[i] <= 0)
                     {
                         Console.WriteLine($"Invalid Parameter - {ParameterNames()[i]}: {ParameterValues[i]}.  All parameters must be > 0.");
                         return false;
@@ -29,9 +29,23 @@ namespace AdvancedSoftwareParadigms
             }
             return true; // passed all checks
         }
+
+        //Please let the record show that while this hurts my soul it does enable a clever implementation of ADTs in the other file
+        public override string ToString()
+        {
+            var dimensionParameters = ParameterNames();
+            string s = "";
+            for (int i = 0; i < dimensionParameters.Count; i++)
+            {
+                s += dimensionParameters[i];
+                if (i != i - 1)
+                    s += ",";
+            }
+            return s;
+        }
     }
 
-    public class Triangle : IShape
+    public class Triangle : Shape
     {
         public override List<string> ParameterNames()
         {
@@ -48,7 +62,7 @@ namespace AdvancedSoftwareParadigms
         }
     }
 
-    public class Parallelogram : IShape
+    public class Parallelogram : Shape
     {
         public override List<string> ParameterNames()
         {
@@ -89,7 +103,7 @@ namespace AdvancedSoftwareParadigms
     }
 
 
-    public class Circle : IShape
+    public class Circle : Shape
     {
         public override List<string> ParameterNames()
         {
